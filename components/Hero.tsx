@@ -19,7 +19,7 @@ export default function Hero() {
     const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (!heroRef.current || !headlineRef.current || prefersReducedMotion) return;
+        if (!heroRef.current || !headlineRef.current) return;
 
         // Staggered text reveal animation
         const words = headlineRef.current.querySelectorAll('.word');
@@ -73,7 +73,7 @@ export default function Hero() {
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, [prefersReducedMotion]);
+    }, []);
 
     return (
         <section
