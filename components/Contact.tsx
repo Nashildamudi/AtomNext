@@ -125,26 +125,26 @@ export default function Contact() {
 
                             <div className="space-y-4">
                                 <motion.a
-                                    href="mailto:hello@atonnext.com"
+                                    href="mailto:nashildamudi212@gmail.com"
                                     className="flex items-center gap-4 text-gray-300 hover:text-primary-violet transition-colors duration-300"
                                     whileHover={{ x: 5 }}
                                 >
                                     <span className="text-2xl">📧</span>
                                     <div>
                                         <p className="text-sm text-gray-500">Email</p>
-                                        <p className="font-semibold">hello@atonnext.com</p>
+                                        <p className="font-semibold">nashildamudi212@gmail.com</p>
                                     </div>
                                 </motion.a>
 
                                 <motion.a
-                                    href="tel:+15551234567"
+                                    href="tel:+918036841580"
                                     className="flex items-center gap-4 text-gray-300 hover:text-primary-violet transition-colors duration-300"
                                     whileHover={{ x: 5 }}
                                 >
                                     <span className="text-2xl">📱</span>
                                     <div>
                                         <p className="text-sm text-gray-500">Phone</p>
-                                        <p className="font-semibold">+1 (555) 123-4567</p>
+                                        <p className="font-semibold">+91 8036841580</p>
                                     </div>
                                 </motion.a>
 
@@ -155,7 +155,7 @@ export default function Contact() {
                                     <span className="text-2xl">📍</span>
                                     <div>
                                         <p className="text-sm text-gray-500">Location</p>
-                                        <p className="font-semibold">San Francisco, CA</p>
+                                        <p className="font-semibold">Bhatkal, Karnataka, India</p>
                                     </div>
                                 </motion.div>
                             </div>
@@ -201,7 +201,7 @@ export default function Contact() {
                                 </p>
                                 <button
                                     className="px-6 py-3 bg-white text-dark-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300"
-                                    onClick={() => window.location.href = 'mailto:hello@atonnext.com?subject=Schedule a Free Consultation'}
+                                    onClick={() => window.location.href = 'mailto:nashildamudi212@gmail.com?subject=Schedule a Free Consultation'}
                                 >
                                     Schedule Call →
                                 </button>
