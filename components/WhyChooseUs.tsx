@@ -62,7 +62,7 @@ export default function WhyChooseUs() {
                     transition={{ duration: 0.8 }}
                 >
                     <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                        <span className="text-gradient">Why Choose atomnext</span>
+                        <span className="text-gradient">Why Choose AtonNext</span>
                     </h2>
                     <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
                         We combine technical excellence with business focus to deliver exceptional results

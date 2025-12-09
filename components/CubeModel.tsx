@@ -35,7 +35,16 @@ function FloatingCube() {
 export default function CubeModel() {
     return (
         <div className="absolute inset-0 pointer-events-none opacity-40">
-            <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
+            <Canvas
+                camera={{ position: [0, 0, 6], fov: 50 }}
+                dpr={typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, 2) : 1}
+                gl={{
+                    antialias: true,
+                    alpha: true,
+                    powerPreference: 'high-performance',
+                }}
+                performance={{ min: 0.5 }}
+            >
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} color="#7F00FF" />
                 <pointLight position={[-10, -10, -10]} intensity={0.5} />

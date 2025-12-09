@@ -40,7 +40,7 @@ export default function About() {
                     transition={{ duration: 0.8 }}
                 >
                     <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                        <span className="text-gradient">About atomnext</span>
+                        <span className="text-gradient">About AtonNext</span>
                     </h2>
                     <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
                         We're a team of passionate creators, designers, and developers pushing the boundaries of what's possible on the web.
@@ -59,7 +59,7 @@ export default function About() {
 
                     <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Mission</h3>
                     <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-4">
-                        At atomnext, we believe the web should be a canvas for extraordinary experiences. We combine cutting-edge technology with artistic vision to create digital products that don't just work—they inspire.
+                        At AtonNext, we believe the web should be a canvas for extraordinary experiences. We combine cutting-edge technology with artistic vision to create digital products that don't just work—they inspire.
                     </p>
                     <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
                         From immersive 3D environments to pixel-perfect interfaces, we craft every detail with precision and passion.

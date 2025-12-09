@@ -14,7 +14,7 @@ export default function Footer() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h3 className="text-3xl font-bold text-gradient mb-4">atomnext</h3>
+                        <h3 className="text-3xl font-bold text-gradient mb-4">AtonNext</h3>
                         <p className="text-gray-400 leading-relaxed mb-6">
                             Building the future, pixel by pixel. Premium web development & digital innovation for ambitious enterprises.
                         </p>
@@ -124,7 +124,7 @@ export default function Footer() {
                 >
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-gray-500 text-sm">
-                            &copy; {new Date().getFullYear()} atomnext. All rights reserved.
+                            &copy; {new Date().getFullYear()} AtonNext. All rights reserved.
                         </p>
                         <div className="flex gap-6 text-sm">
                             <a href="#" className="text-gray-500 hover:text-primary-violet transition-colors duration-300">

@@ -1,8 +1,8 @@
-# atomnext - Premium Web Development Agency
+# AtonNext - Premium Web Development Agency
 
 A cutting-edge, high-performance agency website built with Next.js, Three.js, GSAP, and Framer Motion. Features stunning 3D animations, scroll-driven interactions, and a pristine dark mode design.
 
-![atomnext](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
+![AtonNext](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 ![Three.js](https://img.shields.io/badge/Three.js-0.160-black?style=for-the-badge&logo=three.js)
 
@@ -57,7 +57,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see the site.
 ## 📁 Project Structure
 
 ```
-atomnext/
+AtomNext/
 ├── app/
 │   ├── layout.tsx          # Root layout with metadata
 │   ├── page.tsx            # Main homepage
@@ -181,6 +181,6 @@ MIT License - feel free to use this code for your own projects.
 
 ---
 
-**Built with 💜 by atomnext**
+**Built with 💜 by AtonNext**
 
 *Building the future, pixel by pixel.*

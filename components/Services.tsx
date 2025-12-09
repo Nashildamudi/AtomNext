@@ -56,7 +56,7 @@ export default function Services() {
     const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (!sectionRef.current || !titleRef.current) return;
+        if (!sectionRef.current || !titleRef.current || prefersReducedMotion) return;
 
         // Animate title on scroll
         gsap.fromTo(
@@ -77,7 +77,7 @@ export default function Services() {
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, []);
+    }, [prefersReducedMotion]);
 
     return (
         <section id="services" ref={sectionRef} className="relative min-h-screen bg-dark-900 py-32 px-6">

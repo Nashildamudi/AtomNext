@@ -34,7 +34,16 @@ function RotatingTorus() {
 export default function TorusModel() {
     return (
         <div className="absolute inset-0 pointer-events-none opacity-50">
-            <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+            <Canvas
+                camera={{ position: [0, 0, 5], fov: 50 }}
+                dpr={typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, 2) : 1}
+                gl={{
+                    antialias: true,
+                    alpha: true,
+                    powerPreference: 'high-performance',
+                }}
+                performance={{ min: 0.5 }}
+            >
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} />
                 <pointLight position={[-10, -10, -10]} intensity={0.5} color="#00F0FF" />

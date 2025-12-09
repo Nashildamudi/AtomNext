@@ -19,7 +19,7 @@ export default function Hero() {
     const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (!heroRef.current || !headlineRef.current) return;
+        if (!heroRef.current || !headlineRef.current || prefersReducedMotion) return;
 
         // Staggered text reveal animation
         const words = headlineRef.current.querySelectorAll('.word');
@@ -73,7 +73,7 @@ export default function Hero() {
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, []);
+    }, [prefersReducedMotion]);
 
     return (
         <section
@@ -92,7 +92,7 @@ export default function Hero() {
                     ref={headlineRef}
                     className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
                 >
-                    {['atomnext:', 'Building', 'the', 'Future,', 'Pixel', 'by', 'Pixel'].map((word, i) => (
+                    {['AtomNext:', 'Building', 'the', 'Future,', 'Pixel', 'by', 'Pixel'].map((word, i) => (
                         <span key={i} className="word inline-block mr-4 md:mr-6">
                             {i === 0 ? (
                                 <span className="text-gradient">{word}</span>

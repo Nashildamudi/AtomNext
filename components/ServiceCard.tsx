@@ -18,7 +18,7 @@ export default function ServiceCard({ icon, title, description, index }: Service
     const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (!cardRef.current || !imageRef.current) return;
+        if (!cardRef.current || !imageRef.current || prefersReducedMotion) return;
 
         // Kinetic parallax effect
         gsap.to(imageRef.current, {
@@ -34,7 +34,7 @@ export default function ServiceCard({ icon, title, description, index }: Service
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, []);
+    }, [prefersReducedMotion]);
 
     return (
         <div

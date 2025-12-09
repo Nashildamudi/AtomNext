@@ -29,7 +29,7 @@ const faqs = [
         answer: 'Absolutely. We have extensive experience integrating with third-party APIs, legacy systems, CRMs, payment processors, and enterprise software. We ensure seamless data flow and system interoperability.',
     },
     {
-        question: 'What makes atomnext different from other agencies?',
+        question: 'What makes AtonNext different from other agencies?',
         answer: 'Our unique blend of technical excellence and creative innovation sets us apart. We don\'t just build websites—we craft immersive digital experiences with advanced 3D graphics, animations, and cutting-edge web technologies.',
     },
     {

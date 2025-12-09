@@ -27,7 +27,7 @@ export default function Navigation() {
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                 {/* Logo */}
                 <a href="#" className="text-2xl font-bold">
-                    <span className="text-gradient">atomnext</span>
+                    <span className="text-gradient">AtonNext</span>
                 </a>
 
                 {/* Navigation Links */}

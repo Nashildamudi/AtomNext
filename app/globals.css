@@ -8,6 +8,9 @@
   --color-dark-900: #0A0A0A;
   --color-dark-800: #121212;
   --color-dark-700: #1A1A1A;
+
+  /* Mobile 100vh fix */
+  --vh: 1vh;
 }
 
 * {
@@ -45,19 +48,10 @@ body {
   background: var(--color-blue);
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  html {
-    scroll-behavior: auto;
-  }
+/* Mobile viewport height fix */
+.min-h-screen-mobile {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
 }
 
 /* Base layer utilities */
@@ -68,11 +62,11 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .glow-violet {
     box-shadow: 0 0 20px rgba(127, 0, 255, 0.5);
   }
-  
+
   .glow-blue {
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
   }
