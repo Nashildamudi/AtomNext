@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WeightlessCanvas from './WeightlessCanvas';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -16,64 +15,101 @@ export default function Hero() {
     const headlineRef = useRef<HTMLHeadingElement>(null);
     const sublineRef = useRef<HTMLParagraphElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
-    const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (!heroRef.current || !headlineRef.current || prefersReducedMotion) return;
+        if (!heroRef.current || !headlineRef.current) {
+            console.warn('[Hero] Refs not ready');
+            return;
+        }
 
-        // Staggered text reveal animation
-        const words = headlineRef.current.querySelectorAll('.word');
+        console.log('[Hero] Initializing animations...');
 
-        gsap.fromTo(
-            words,
-            {
-                opacity: 0,
-                y: 50,
-            },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: 'power4.out',
-                stagger: 0.05,
-                delay: 0.5,
+        // GUARANTEED animation start with delay for mobile
+        const initAnimations = () => {
+            const words = headlineRef.current?.querySelectorAll('.word');
+
+            if (!words || words.length === 0) {
+                console.warn('[Hero] No words found for animation');
+                return;
             }
-        );
 
-        // Subline fade in
-        if (sublineRef.current) {
+            console.log('[Hero] Animating', words.length, 'words');
+
+            // Staggered text reveal animation - ALWAYS runs
             gsap.fromTo(
-                sublineRef.current,
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', delay: 1.2 }
-            );
-        }
-
-        // ScrollTrigger: Shrink and pin hero on scroll
-        if (canvasContainerRef.current) {
-            ScrollTrigger.create({
-                trigger: heroRef.current,
-                start: 'top top',
-                end: '+=500',
-                scrub: 1,
-                pin: false,
-                onUpdate: (self) => {
-                    const scale = 1 - self.progress * 0.2; // Scale from 1 to 0.8
-                    if (canvasContainerRef.current) {
-                        gsap.to(canvasContainerRef.current, {
-                            scale: scale,
-                            duration: 0.1,
-                            ease: 'none',
-                        });
-                    }
+                words,
+                {
+                    opacity: 0,
+                    y: 50,
                 },
-            });
-        }
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power4.out',
+                    stagger: 0.05,
+                    delay: 0.5,
+                }
+            );
+
+            // Subline fade in
+            if (sublineRef.current) {
+                gsap.fromTo(
+                    sublineRef.current,
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', delay: 1.2 }
+                );
+            }
+
+            // ScrollTrigger: Shrink and pin hero on scroll
+            if (canvasContainerRef.current) {
+                ScrollTrigger.create({
+                    trigger: heroRef.current,
+                    start: 'top top',
+                    end: '+=500',
+                    scrub: 1,
+                    pin: false,
+                    invalidateOnRefresh: true, // Recalculate on mobile resize
+                    onUpdate: (self) => {
+                        const scale = 1 - self.progress * 0.2; // Scale from 1 to 0.8
+                        if (canvasContainerRef.current) {
+                            gsap.to(canvasContainerRef.current, {
+                                scale: scale,
+                                duration: 0.1,
+                                ease: 'none',
+                            });
+                        }
+                    },
+                });
+            }
+
+            console.log('[Hero] Animations initialized');
+        };
+
+        // Initialize immediately
+        initAnimations();
+
+        // CRITICAL: Force ScrollTrigger refresh after canvas loads
+        const refreshTimeout = setTimeout(() => {
+            ScrollTrigger.refresh();
+            console.log('[Hero] ScrollTrigger refreshed');
+        }, 100);
+
+        // Handle mobile resize (orientation changes)
+        const handleResize = () => {
+            ScrollTrigger.refresh();
+        };
+
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('orientationchange', handleResize);
 
         return () => {
+            clearTimeout(refreshTimeout);
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('orientationchange', handleResize);
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, [prefersReducedMotion]);
+    }, []);
 
     return (
         <section

@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 import TorusModel from './TorusModel';
 
 if (typeof window !== 'undefined') {
@@ -53,10 +52,9 @@ const services = [
 export default function Services() {
     const sectionRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
-    const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (!sectionRef.current || !titleRef.current || prefersReducedMotion) return;
+        if (!sectionRef.current || !titleRef.current) return;
 
         // Animate title on scroll
         gsap.fromTo(
@@ -77,7 +75,7 @@ export default function Services() {
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, [prefersReducedMotion]);
+    }, []);
 
     return (
         <section id="services" ref={sectionRef} className="relative min-h-screen bg-dark-900 py-32 px-6">

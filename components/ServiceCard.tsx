@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ServiceCardProps {
     icon: string;
@@ -15,10 +14,9 @@ interface ServiceCardProps {
 export default function ServiceCard({ icon, title, description, index }: ServiceCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const imageRef = useRef<HTMLDivElement>(null);
-    const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
-        if (!cardRef.current || !imageRef.current || prefersReducedMotion) return;
+        if (!cardRef.current || !imageRef.current) return;
 
         // Kinetic parallax effect
         gsap.to(imageRef.current, {
@@ -34,7 +32,7 @@ export default function ServiceCard({ icon, title, description, index }: Service
         return () => {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
-    }, [prefersReducedMotion]);
+    }, []);
 
     return (
         <div

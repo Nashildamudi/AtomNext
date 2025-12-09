@@ -1,12 +1,19 @@
 "use client";
 
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export default function ParticleCloud() {
     const pointsRef = useRef<THREE.Points>(null);
-    const particleCount = typeof window !== 'undefined' && window.innerWidth < 768 ? 1000 : 3000;
+
+    // Better mobile detection
+    const isMobile = typeof window !== 'undefined' && (
+        window.innerWidth < 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    );
+
+    const particleCount = isMobile ? 500 : 2000; // Reduced even further for mobile
 
     // Generate particle positions in a spherical distribution
     const positions = useMemo(() => {
@@ -28,7 +35,7 @@ export default function ParticleCloud() {
         return pos;
     }, [particleCount]);
 
-    // Breathing animation
+    // GUARANTEED render loop - always runs
     useFrame((state) => {
         if (!pointsRef.current) return;
 
@@ -43,6 +50,16 @@ export default function ParticleCloud() {
         pointsRef.current.scale.set(breathe, breathe, breathe);
     });
 
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            if (pointsRef.current) {
+                pointsRef.current.geometry.dispose();
+                (pointsRef.current.material as THREE.Material).dispose();
+            }
+        };
+    }, []);
+
     return (
         <points ref={pointsRef}>
             <bufferGeometry>
@@ -54,7 +71,7 @@ export default function ParticleCloud() {
                 />
             </bufferGeometry>
             <pointsMaterial
-                size={0.02}
+                size={isMobile ? 0.015 : 0.02} // Smaller on mobile
                 color="#7F00FF"
                 sizeAttenuation={true}
                 transparent={true}
