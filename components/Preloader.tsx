@@ -12,22 +12,58 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
-        // Simulate loading progress
-        const interval = setInterval(() => {
-            setProgress((prev) => {
-                if (prev >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        setIsComplete(true);
-                        setTimeout(onComplete, 600); // Wait for exit animation
-                    }, 300);
-                    return 100;
-                }
-                return prev + 2;
-            });
-        }, 30);
+        let progressInterval: NodeJS.Timeout;
+        let isPageLoaded = false;
 
-        return () => clearInterval(interval);
+        // Function to complete loading
+        const completeLoading = () => {
+            if (!isPageLoaded) {
+                isPageLoaded = true;
+                setProgress(100);
+                setTimeout(() => {
+                    setIsComplete(true);
+                    setTimeout(onComplete, 600); // Wait for exit animation
+                }, 300);
+            }
+        };
+
+        // Check if page is already loaded
+        if (document.readyState === 'complete') {
+            // Page already loaded, complete immediately
+            completeLoading();
+        } else {
+            // Start simulated progress (faster now, goes to 90%)
+            progressInterval = setInterval(() => {
+                setProgress((prev) => {
+                    if (prev >= 90) {
+                        clearInterval(progressInterval);
+                        return 90; // Stop at 90% until actual page load
+                    }
+                    return prev + 3; // Faster progress
+                });
+            }, 40);
+
+            // Listen for actual page load
+            const handleLoad = () => {
+                completeLoading();
+            };
+
+            window.addEventListener('load', handleLoad);
+
+            // Fallback: also listen to readyState changes
+            const checkReadyState = setInterval(() => {
+                if (document.readyState === 'complete') {
+                    clearInterval(checkReadyState);
+                    completeLoading();
+                }
+            }, 100);
+
+            return () => {
+                clearInterval(progressInterval);
+                clearInterval(checkReadyState);
+                window.removeEventListener('load', handleLoad);
+            };
+        }
     }, [onComplete]);
 
     return (
