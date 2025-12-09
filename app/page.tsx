@@ -25,29 +25,35 @@ export default function Home() {
 
     return (
         <>
+            {/* Preloader - stays on top */}
             {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
 
-            {!isLoading && (
-                <main className="min-h-screen">
-                    <Navigation />
-                    <Hero />
-                    <Services />
-                    <Industries /> {/* What We Build */}
-                    <Portfolio />
-                    <WhyChooseUs />
-                    <Process />
-                    <Timeline />
-                    <Pricing />
-                    <Guarantees />
-                    <TechStack />
-                    <CTA />
-                    <Testimonials />
-                    <About />
-                    <FAQ />
-                    <Contact />
-                    <Footer />
-                </main>
-            )}
+            {/* Main content - always rendered (so it loads), but hidden until loading completes */}
+            <main
+                className="min-h-screen transition-opacity duration-1000"
+                style={{
+                    opacity: isLoading ? 0 : 1,
+                    pointerEvents: isLoading ? 'none' : 'auto'
+                }}
+            >
+                <Navigation />
+                <Hero />
+                <Services />
+                <Industries /> {/* What We Build */}
+                <Portfolio />
+                <WhyChooseUs />
+                <Process />
+                <Timeline />
+                <Pricing />
+                <Guarantees />
+                <TechStack />
+                <CTA />
+                <Testimonials />
+                <About />
+                <FAQ />
+                <Contact />
+                <Footer />
+            </main>
         </>
     );
 }
