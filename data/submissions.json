@@ -1,0 +1,18 @@
+{
+  "submissions": [
+    {
+      "name": "nashil",
+      "email": "nashil@gmail.com",
+      "message": "hellooooo",
+      "type": "meeting",
+      "meetingDetails": {
+        "preferredDate": "2026-12-02",
+        "preferredTime": "Morning (9AM - 12PM)",
+        "phone": "+91 8073684158"
+      },
+      "id": "sub_1765461453330_cd33kgj5z",
+      "timestamp": 1765461453330,
+      "status": "unread"
+    }
+  ]
+}

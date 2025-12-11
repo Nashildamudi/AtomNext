@@ -3,19 +3,62 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import IcosahedronModel from './IcosahedronModel';
+import MeetingScheduler from './MeetingScheduler';
 
 export default function Contact() {
+    const [isSchedulerOpen, setIsSchedulerOpen] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         company: '',
         message: '',
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<{ success: boolean; message: string; error?: boolean }>({
+        success: false,
+        message: '',
+        error: false
+    });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission
-        console.log('Form submitted:', formData);
+        setIsSubmitting(true);
+        setSubmitStatus({ success: false, message: '', error: false });
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setSubmitStatus({
+                    success: true,
+                    message: data.message,
+                    error: false
+                });
+                setFormData({ name: '', email: '', company: '', message: '' });
+            } else {
+                setSubmitStatus({
+                    success: false,
+                    message: data.message || 'Something went wrong. Please try again.',
+                    error: true
+                });
+            }
+        } catch (error) {
+            setSubmitStatus({
+                success: false,
+                message: 'Failed to send message. Please try again later.',
+                error: true
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -53,6 +96,26 @@ export default function Contact() {
                         transition={{ duration: 0.8 }}
                     >
                         <form onSubmit={handleSubmit} className="space-y-6">
+                            {submitStatus.success && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center"
+                                >
+                                    {submitStatus.message}
+                                </motion.div>
+                            )}
+
+                            {submitStatus.error && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center"
+                                >
+                                    {submitStatus.message}
+                                </motion.div>
+                            )}
+
                             <div>
                                 <label className="block text-gray-300 font-semibold mb-2">Your Name</label>
                                 <input
@@ -62,6 +125,7 @@ export default function Contact() {
                                     className="w-full px-6 py-4 bg-dark-800 border border-dark-700 rounded-xl text-white focus:border-primary-violet focus:outline-none transition-colors duration-300"
                                     placeholder="John Doe"
                                     required
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -74,6 +138,7 @@ export default function Contact() {
                                     className="w-full px-6 py-4 bg-dark-800 border border-dark-700 rounded-xl text-white focus:border-primary-violet focus:outline-none transition-colors duration-300"
                                     placeholder="john@company.com"
                                     required
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -85,6 +150,7 @@ export default function Contact() {
                                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                                     className="w-full px-6 py-4 bg-dark-800 border border-dark-700 rounded-xl text-white focus:border-primary-violet focus:outline-none transition-colors duration-300"
                                     placeholder="Your Company"
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -97,16 +163,18 @@ export default function Contact() {
                                     className="w-full px-6 py-4 bg-dark-800 border border-dark-700 rounded-xl text-white focus:border-primary-violet focus:outline-none transition-colors duration-300 resize-none"
                                     placeholder="Tell us about your project..."
                                     required
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
                             <motion.button
                                 type="submit"
-                                className="w-full px-8 py-4 bg-gradient-to-r from-primary-violet to-primary-blue text-white font-semibold text-lg rounded-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 glow-violet"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                disabled={isSubmitting}
+                                className="w-full px-8 py-4 bg-gradient-to-r from-primary-violet to-primary-blue text-white font-semibold text-lg rounded-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 glow-violet disabled:opacity-70 disabled:hover:scale-100"
+                                whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                             >
-                                Send Message →
+                                {isSubmitting ? 'Sending...' : 'Send Message →'}
                             </motion.button>
                         </form>
                     </motion.div>
@@ -201,7 +269,7 @@ export default function Contact() {
                                 </p>
                                 <button
                                     className="px-6 py-3 bg-white text-dark-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-300"
-                                    onClick={() => window.location.href = 'mailto:nashildamudi212@gmail.com?subject=Schedule a Free Consultation'}
+                                    onClick={() => setIsSchedulerOpen(true)}
                                 >
                                     Schedule Call →
                                 </button>
@@ -210,6 +278,11 @@ export default function Contact() {
                     </motion.div>
                 </div>
             </div>
+
+            <MeetingScheduler
+                isOpen={isSchedulerOpen}
+                onClose={() => setIsSchedulerOpen(false)}
+            />
         </section>
     );
 }
